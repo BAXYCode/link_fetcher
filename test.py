@@ -12,7 +12,7 @@ async def main():
 
     tab = await driver.get("https://dexscreener.com/ethereum/{address}".format(address=address))
  
-    print("finding checkbox")
+    # print("finding checkbox")
     location = pyautogui.locateOnScreen("{fullPathScreenshot}".format(fullPathScreenshot=fullPathScreenshot), confidence=0.8, grayscale=True, minSearchTime=10)  # 
     if location:
         center = pyautogui.center(location)
@@ -20,7 +20,7 @@ async def main():
     else:
         print("Can't find location")
 
-    print("finding the website link")
+    # print("finding the website link")
     await tab.wait_for(" div.chakra-stack.custom-18cqgg9 > a.chakra-link.chakra-button.custom-1xt6654")
     elements = await tab.query_selector_all(" div.chakra-stack.custom-18cqgg9 > a.chakra-link.chakra-button.custom-1xt6654") 
     if len(elements) < 3:
@@ -31,9 +31,11 @@ async def main():
             "twitter": elements[1].attributes[-1],
             "telegram":elements[2].attributes[-1]
             }
-    print(json.dumps(response))
-    for element in elements:
-        print(element.attributes)
+    sys.stdout.write(json.dumps(response))
+    sys.stdout.flush()
+    return sys.exit(0)
+    # for element in elements:
+    #     print(element.attributes)
 if __name__ == "__main__":
     # Running the main function
     uc.loop().run_until_complete(main())
