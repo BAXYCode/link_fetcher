@@ -4,6 +4,7 @@ import nodriver as uc
 import pyautogui
 import os
 import sys
+import json
 async def main():
     address = sys.argv[1]
     fullPathScreenshot = sys.argv[2]
@@ -21,8 +22,17 @@ async def main():
 
     print("finding the website link")
     await tab.wait_for(" div.chakra-stack.custom-18cqgg9 > a.chakra-link.chakra-button.custom-1xt6654")
-    website = await tab.query_selector_all(" div.chakra-stack.custom-18cqgg9 > a.chakra-link.chakra-button.custom-1xt6654") 
-    for element in website:
+    elements = await tab.query_selector_all(" div.chakra-stack.custom-18cqgg9 > a.chakra-link.chakra-button.custom-1xt6654") 
+    if len(elements) < 3:
+        print("None")
+        return
+    response = {
+            "website":elements[0].attributes[-1],
+            "twitter": elements[1].attributes[-1],
+            "telegram":elements[2].attributes[-1]
+            }
+    print(json.dumps(response))
+    for element in elements:
         print(element.attributes)
 if __name__ == "__main__":
     # Running the main function
