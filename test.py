@@ -3,13 +3,16 @@
 import nodriver as uc 
 import pyautogui
 import os
+import sys
 async def main():
+    address = sys.argv[1]
+    fullPathScreenshot = sys.argv[2]
     driver = await uc.start()
 
-    tab = await driver.get("https://dexscreener.com/ethereum/0x3885fbe4cd8aed7b7e9625923927fa1ce30662a3")
+    tab = await driver.get("https://dexscreener.com/ethereum/{address}".format(address=address))
  
     print("finding checkbox")
-    location = pyautogui.locateOnScreen("/home/benjaminlaine/git/venv/checkbox_dark.png", confidence=0.8, grayscale=True, minSearchTime=10)  # 
+    location = pyautogui.locateOnScreen("{fullPathScreenshot}".format(fullPathScreenshot=fullPathScreenshot), confidence=0.8, grayscale=True, minSearchTime=10)  # 
     if location:
         center = pyautogui.center(location)
         pyautogui.click(center)
